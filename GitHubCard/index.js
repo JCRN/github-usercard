@@ -3,34 +3,8 @@
            https://api.github.com/users/<your name>
 */
 
-const cards = document.querySelector('.cards')
-
-const userData = axios.get('https://api.github.com/users/JCRN')
-  userData
-    .then(data => {
-      // handle success
-      console.log('response', data);
-      const userCard = createUserCard(data.data)
-      cards.appendChild(userCard)
-    })
-  userData
-    .catch(error => {
-      // handle error
-      alert('OOPS! Something Went Wrong :(', error)
-      console.log('error', error);
-    })
 
 
-// const testCard = {
-//   avatar_url: 'https://avatars1.githubusercontent.com/u/50152206?v=4',
-//   name: 'Jason Clemons',
-//   login: 'JCRN',
-//   location: 'Seattle',
-//   html_url: 'https://github.com/JCRN',
-//   followers: 13,
-//   following: 13,
-//   bio: 'Full Stack Web Development Student @ Lambda School'
-// }
 
 /* Step 2: Inspect and study the data coming back, this is YOUR 
    github info! You will need to understand the structure of this 
@@ -44,6 +18,7 @@ const userData = axios.get('https://api.github.com/users/JCRN')
 */
 
 
+
 /* Step 5: Now that you have your own card getting added to the DOM, either 
           follow this link in your browser https://api.github.com/users/<Your github name>/followers 
           , manually find some other users' github handles, or use the list found 
@@ -53,8 +28,6 @@ const userData = axios.get('https://api.github.com/users/JCRN')
           Using that array, iterate over it, requesting data for each user, creating a new card for each
           user, and adding that card to the DOM.
 */
-
-const followersArray = [];
 
 /* Step 3: Create a function that accepts a single object as its only argument,
           Using DOM methods and properties, create a component that will return the following DOM element:
@@ -76,6 +49,36 @@ const followersArray = [];
 
 */
 
+// Get top level element
+const cards = document.querySelector('.cards')
+
+// Define array of follower logins
+const followersArray = ['DeejayEaster', 'fskeen', 'ElvisKnapman', 'pdadlani', 'czclaxton', 'mariam-farrukh', 'Pmtague', 'daredtech', 'arvagas', 'LandryIrakoze', 'JerryOsorio28', 'MarquesJ8023', 'AlexisPanyathong', 'tommycoleman87'];
+
+/**************************************************************************** FUNCTIONS *************************************************************************/
+
+/* 1. Takes github user login as argument 
+   2. Axios call to github API to collect relevant user data 
+      Success:
+        Creates a new user card by passing user data into createUserCard() 
+        Injects user card into the DOM 
+      Failure:
+        Alerts User */
+function getUserData(usr) { 
+  axios.get(`https://api.github.com/users/${usr}`)
+  .then(data => {
+    // handle success
+    const userCard = createUserCard(data.data)
+    cards.appendChild(userCard)
+  })
+  .catch(error => {
+    // handle error
+    alert('OOPS! Something Went Wrong :(', error)
+  })
+}
+
+
+// Takes user data from API call, creates elements / sets values / returns a github usercard  
 function createUserCard(data) {
   // Define elements
   const card = document.createElement('div')
